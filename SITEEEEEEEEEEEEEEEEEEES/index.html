@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOME CRIATIVO</title>
+    <style>
+        body {
+            background-color: rgba(224, 224, 224, 0.685);
+            text-align: center;
+        }
+        #BAIXO {
+            background-color: red;
+            color: white;
+            font-size: 16px;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button {
+            display: block;
+            margin: 10px auto;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>TITULO DO SITE ESTA AQUI NAO SEI OQ POR</h1>
+    <h2>sitezin</h2>
+    <h1>🔒 Verificação de Senha</h1>
+    <button onclick="verificarSenha()">Entrar</button>
+    <p class="message" id="resultado"></p>
+
+    <script>
+        var sad = "triste";
+        var happy = "feliz";
+        var name = prompt("QUAL TEU NOME NO BAGUIO DOIDO");
+        var horse = Number(prompt("QUANTOS CAVALO TU TEM MAN"));
+        var pao = Number(prompt("Digite a quantidade de pães vendidos: "));
+        var paosvendidos = 0.12 * pao;
+        var broa = Number(prompt("Digite a quantidade de broas vendidas: "));
+        var broasvendidas = 1.50 * broa;
+        var total = paosvendidos + broasvendidas;
+        var porcentagem = total / 10;
+        var num1 = Number(prompt("Escolha um número"));
+        var num2 = Number(prompt("SEGUNDO NÚMERO"));
+
+        function verificarSenha() {
+            var senhaCorreta = "IURIVIADO";
+            var senhaUsuario = prompt("Digite sua senha:");
+
+            if (senhaUsuario === senhaCorreta) {
+                document.getElementById("resultado").innerText = "✅ Acesso permitido!";
+                document.getElementById("resultado").style.color = "green";
+            } else {
+                document.getElementById("resultado").innerText = "❌ Senha incorreta!";
+                document.getElementById("resultado").style.color = "red";
+            }
+        }
+
+        alert("Você vendeu ao total " + total + " reais e deve colocar " + porcentagem + " na poupança.");
+        alert("VOCE DEVERÁ COMPRAR " + (horse * 4) + " fardos de feno!");
+        alert("Nome registrado: " + name);
+        alert("Soma: " + (num1 + num2));
+        alert("Subtração: " + (num1 - num2));
+        alert("Multiplicação: " + (num1 * num2));
+        alert("Divisão: " + (num1 / num2));
+        alert("Potência: " + (num1 ** num2));
+    </script>
+    <input type="range">
+    <input type="file">
+    <input type="radio">
+    <input type="radio">
+    <input type="number">
+
+    <p>COMO VOCÊ ESTÁ HOJE?</p>
+    <div>
+        <button onclick="alert(happy)" style="background-color: green; color: white;">😀 To feliz!</button>
+        <button onclick="alert(sad)" id="BAIXO">😢 TO TRISTE</button>
+    </div>
+
+</body>
+</html>
