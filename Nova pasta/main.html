@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRIMEIRA AULA DE JS</title>
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css">
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+</head>
+<body>
+
+    <h1 style="text-align: center; color: rgb(0, 0, 0); box-shadow: 10px 20px 30px black;">
+        PRIMEIRA AULA DE JAVA SCRIPT
+    </h1>
+    <div>
+        <p>             espaço</p>
+    </div>
+    <label for="valorant">VALORANT </label>
+    <input type="number" id="valorant" placeholder="LA ELE">
+
+    <button onclick="calcularMetroQuadrado()">Calcular Área</button>
+    <button type="button"></button>
+
+    <div id="resultado"></div>
+      <div>
+        <script>
+            let valorant = 0
+            let porcentagem = 0
+            function calcularGorjeta(){
+                valorant =parseFloat(document.getElementById(valorant).value)
+                porcentagem = parseFloat(document.getElementById("qualidade")).value
+                totalgorjeta = valorant + valorant * porcentagem;
+                const campoGorjeta = document.getElementById("valorant");
+                compoGorjeta.innerHTML = "Valor da gorjeta: R$ $(totalgorjeta.toFix)"
+
+            }
+        </script>
+
+
+
+      </div>
+    <script>
+        function calcularMetroQuadrado() {
+            let altura = parseFloat(prompt("Digite a altura: "));
+            let largura = parseFloat(prompt("Digite o comprimento: "));
+            let resultado = altura * largura;
+
+            document.getElementById("resultado").innerHTML = "<p>METRO QUADRADO: " + resultado + "</p>";
+        }
+    </script>
+
+    <input id="numInput" type="number" placeholder="Digite um número">
+    <button py-click="processarNumero()">Processar Número</button>
+     <input type="text">
+     <input type="text"> 
+
+
+
+
+
+    <p> total mentira nao foi aula de js meio que foi mas nao sendo</p>
+    <h5> reflita</h5>
+
+</body>
+</html>
