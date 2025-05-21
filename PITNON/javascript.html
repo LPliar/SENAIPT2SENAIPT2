@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="nao.css" >
+    <script src="index.js"></script>
+    <style>
+        body {
+            background-image: url("https://th.bing.com/th/id/OIP.erTGIUSJcyXy6QFMHN3h9gHaFG?o=7&cb=iwp2rm=3&rs=1&pid=ImgDetMain");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            height: 100vh; /* Garante que cubra toda a tela */
+            margin: 0; /* Remove margens extras */
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center; box-shadow: 10px 20px 50px color rgb(255, 0, 0); color: white;">BEM VINDO AO PIOR SITE</h1>
+    <img src="https://ofuxico.com.br/wp-content/uploads/2022/10/lula-e-jair-bolsonaro-apertando-as-maos-debate-segundo-turno-band.jpg" width="300" style="display: block; margin: auto;">
+     <button type="button" onclick="calculedRetan(7,5)">ACIONAR FUNÇAO</button>
+     <label for="COmpimento" style="color: white;">SLA OQ
+        <input type="text" name="COmpimento" id="COmpimento">
+     </label>
+     <label for="largura" style="color: white;">LARGURA
+        <input type="text" name="largura" id="largura">
+     </label>
+     <script>
+        function calculedRetan(){
+            let l = document.getElementById("largura").value
+            let c = document.getElementById("COmpimento").value
+            var area = (l*c)
+            alert("area: "+area)
+
+        }
+      </script>
+</body>
+</html>

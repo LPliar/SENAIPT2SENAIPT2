@@ -1,0 +1,16 @@
+button {
+    background-color: #7bff009c; /* Cor de fundo vibrante */
+    color: white; /* Cor do texto */
+    border: none; /* Remove a borda */
+    padding: 12px 20px; /* Ajusta o tamanho do botão */
+    font-size: 16px; /* Tamanho da fonte */
+    font-weight: bold; /* Deixa o texto em negrito */
+    border-radius: 8px; /* Cantos arredondados */
+    cursor: pointer; /* Altera o cursor ao passar o mouse */
+    transition: all 0.3s ease-in-out; /* Efeito suave de transição */
+}
+
+button:hover {
+    background-color: #ff000094; /* Cor mais clara ao passar o mouse */
+    transform: scale(1.1); /* Faz o botão crescer levemente */
+}
