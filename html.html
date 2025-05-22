@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Jogo da Cobrinha - Agropesca Jacare</title>
+<style>
+  body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #222;
+    color: #eee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #container {
+    width: 100%;
+    max-width: 600px;
+    padding: 1rem;
+    box-sizing: border-box;
+  }
+  .page {
+    display: none;
+  }
+  .active {
+    display: block;
+  }
+  #nickPage, #gamePage, #leaderboardPage {
+    background: #2c3e50;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 0 15px #27ae60;
+  }
+  #nickPage h1, #leaderboardPage h1 {
+    margin-bottom: 1rem;
+    color: #27ae60;
+    font-size: 2.2rem;
+    font-weight: 700;
+    text-align: center;
+  }
+  #nickPage input[type=text] {
+    padding: 0.8rem;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 6px;
+    width: 80%;
+    max-width: 300px;
+    margin-bottom: 1rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  #nickPage button, #leaderboardPage button, #gamePage button {
+    padding: 0.85rem 2rem;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: block;
+    margin: 1rem auto 0 auto;
+  }
+  /* Botão Começar na página de nickname */
+  #startBtn {
+    background-color: #27ae60;
+  }
+  #startBtn:hover {
+    background-color: #1f8c4a;
+  }
+  /* Botão Ver Placares na página de nickname */
+  #btnShowLeaderboardOnNick {
+    background-color: #2980b9;
+  }
+  #btnShowLeaderboardOnNick:hover {
+    background-color: #1f5f86;
+  }
+  /* Botão Voltar nas páginas de jogo e placar fica vermelho */
+  #btnBackGame, #btnBackLeaderboard {
+    background-color: #e74c3c;
+  }
+  #btnBackGame:hover, #btnBackLeaderboard:hover {
+    background-color: #b32a27;
+  }
+  /* Botão Ver Placares na página do jogo */
+  #btnLeaderboard {
+    background-color: #2980b9;
+    margin-top: 0.5rem;
+  }
+  #btnLeaderboard:hover {
+    background-color: #1f5f86;
+  }
+
+  #nickError {
+    color: #e74c3c;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  #gamePage header {
+    margin-bottom: 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #27ae60;
+    font-weight: 700;
+  }
+  #gamePage header div {
+    font-size: 1.1rem;
+  }
+  #gameCanvas {
+    background-color: #222;
+    display: block;
+    margin: 0 auto;
+    border: 3px solid #27ae60;
+    border-radius: 8px;
+  }
+  #instructions {
+    color: #ccc;
+    font-size: 0.9rem;
+    margin-top: 0.6rem;
+    text-align: center;
+  }
+  #btnBack {
+    margin-top: 1rem;
+    background: #e74c3c;
+    border: none;
+    color: white;
+    font-weight: 700;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  #btnBack:hover {
+    background: #b32a27;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+  th, td {
+    padding: 0.75rem;
+    text-align: center;
+    border-bottom: 1px solid #27ae60;
+  }
+  th {
+    background-color: #27ae60;
+    color: #111;
+  }
+</style>
+</head>
+<body>
+
+<div id="container">
+
+  <!-- Página para inserir nickname -->
+  <section id="nickPage" class="page active" role="main" aria-label="Página para inserir apelido">
+    <h1>Informe seu Nickname</h1>
+    <div id="nickError" role="alert" aria-live="assertive"></div>
+    <input type="text" id="nickInput" placeholder="Seu Nick" aria-required="true" aria-describedby="nickError" maxlength="15" />
+    <br />
+    <button id="startBtn" aria-label="Começar jogo com o nickname informado">Começar</button>
+    <button id="btnShowLeaderboardOnNick" aria-label="Ver placar de liderança">Ver Placares</button>
+  </section>
+
+  <!-- Página do jogo -->
+  <section id="gamePage" class="page" role="main" aria-label="Página do jogo da cobrinha">
+    <header>
+      <div>Nick: <span id="displayNick"></span></div>
+      <div>Pontuação: <span id="score">0</span></div>
+      <div>Tempo: <span id="timer">0</span>s</div>
+      <div> nada aqui <span id="semide">0</span></div>
+    </header>
+    <canvas id="gameCanvas" width="400" height="400" aria-label="Área do jogo da cobrinha" tabindex="0"></canvas>
+    <div id="instructions">Use as setas do teclado para controlar a cobrinha. Pressione E, R ou B para alternar entre setas e WASD.</div>
+    <button id="btnBackGame" aria-label="Voltar para página do nickname">Voltar</button>
+    <button id="btnLeaderboard" aria-label="Ver placar de liderança">Ver Placares</button>
+  </section>
+
+  <!-- Página do placar -->
+  <section id="leaderboardPage" class="page" role="main" aria-label="Página de placar da liderança">
+    <h1>Placar de Liderança</h1>
+    <table aria-label="Tabela de lideres">
+      <thead>
+        <tr>
+          <th>Nickname</th>
+          <th>Tempo (s)</th>
+          <th>Pontuação</th>
+        </tr>
+      </thead>
+      <tbody id="leaderboardBody">
+        <!-- Linhas do placar inseridas dinamicamente -->
+      </tbody>
+    </table>
+    <button id="btnBackLeaderboard" aria-label="Voltar para página do jogo">Voltar</button>
+  </section>
+
+</div>
+
+<script>
+  (() => {
+    // Elementos das páginas
+    const nickPage = document.getElementById('nickPage');
+    const gamePage = document.getElementById('gamePage');
+    const leaderboardPage = document.getElementById('leaderboardPage');
+
+    const nickInput = document.getElementById('nickInput');
+    const nickError = document.getElementById('nickError');
+    const startBtn = document.getElementById('startBtn');
+    const btnShowLeaderboardOnNick = document.getElementById('btnShowLeaderboardOnNick');
+    const displayNick = document.getElementById('displayNick');
+    const scoreDisplay = document.getElementById('score');
+    const timerDisplay = document.getElementById('timer');
+    const btnBackGame = document.getElementById('btnBackGame');
+    const btnLeaderboard = document.getElementById('btnLeaderboard');
+    const btnBackLeaderboard = document.getElementById('btnBackLeaderboard');
+    const leaderboardBody = document.getElementById('leaderboardBody');
+
+    // Variáveis do jogo
+    let score = 0;
+    let timer = 0;
+    let snakeInterval = null;
+    let scoreInterval = null;
+    let growth = 0;
+
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const gridSize = 20;
+    const gridCount = canvas.width / gridSize;
+    let snake = [];
+    let direction = 'right';
+    let nextDirection = 'right';
+    let food = {};
+    let gameOver = false;
+
+    // Controle com setas do teclado por padrão (true) ou WASD (false)
+    let useArrows = true;
+
+    // Pega os dados do placar do localStorage ou inicializa um array vazio
+    function getLeaderboard(){
+      const stored = localStorage.getItem('snakeLeaderboard');
+      return stored ? JSON.parse(stored) : [];
+    }
+
+    // Salva os dados do placar no localStorage
+    function saveLeaderboard(data){
+      localStorage.setItem('snakeLeaderboard', JSON.stringify(data));
+    }
+
+    // Atualiza a tabela do placar na tela
+    function updateLeaderboardTable(){
+      const leaderboard = getLeaderboard();
+
+      // Ordena: primeiro por pontuação decrescente, depois por tempo crescente
+      leaderboard.sort((a,b) => {
+        if(b.score !== a.score) return b.score - a.score;
+        return a.timer - b.timer;
+      });
+
+      leaderboardBody.innerHTML = '';
+
+      leaderboard.forEach(entry => {
+        const tr = document.createElement('tr');
+        const nickTd = document.createElement('td');
+        const timerTd = document.createElement('td');
+        const scoreTd = document.createElement('td');
+
+        nickTd.textContent = entry.nick;
+        timerTd.textContent = entry.timer;
+        scoreTd.textContent = entry.score;
+
+        tr.appendChild(nickTd);
+        tr.appendChild(timerTd);
+        tr.appendChild(scoreTd);
+
+        leaderboardBody.appendChild(tr);
+      });
+    }
+
+    function resetGame() {
+      snake = [
+        {x: 5, y: 10},
+        {x: 4, y: 10},
+        {x: 3, y: 10},
+      ];
+      direction = 'right';
+      nextDirection = 'right';
+      placeFood();
+      score = 0;
+      timer = 0;
+      growth = 0;
+      gameOver = false;
+      scoreDisplay.textContent = score;
+      timerDisplay.textContent = timer;
+    }
+
+    function placeFood() {
+      let valid = false;
+      while (!valid) {
+        food.x = Math.floor(Math.random() * gridCount);
+        food.y = Math.floor(Math.random() * gridCount);
+        valid = !snake.some(s => s.x === food.x && s.y === food.y);
+      }
+    }
+
+    function drawGame() {
+      ctx.fillStyle = '#222';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = '#e74c3c';
+      ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize, gridSize);
+
+      ctx.fillStyle = '#27ae60';
+      snake.forEach((segment, idx) => {
+        ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize, gridSize);
+        if(idx === 0){
+          ctx.strokeStyle = '#2ecc71';
+          ctx.lineWidth = 2;
+          ctx.strokeRect(segment.x * gridSize, segment.y * gridSize, gridSize, gridSize);
+        }
+      });
+    }
+
+    function updateSnake() {
+      if(gameOver) return;
+
+      direction = nextDirection;
+
+      const head = {...snake[0]};
+      switch(direction){
+        case 'up': head.y -= 1; break;
+        case 'down': head.y += 1; break;
+        case 'left': head.x -= 1; break;
+        case 'right': head.x += 1; break;
+      }
+
+      if(head.x < 0) head.x = gridCount - 1;
+      if(head.x >= gridCount) head.x = 0;
+      if(head.y < 0) head.y = gridCount -1;
+      if(head.y >= gridCount) head.y = 0;
+
+      if(snake.some(s => s.x === head.x && s.y === head.y)){
+        // Ao perder, já vai para a tela do placar
+        endGame(true);
+        return;
+      }
+
+      snake.unshift(head);
+
+      if(head.x === food.x && head.y === food.y){
+        score += 10000;
+        scoreDisplay.textContent = score;
+        placeFood();
+        growth += 2;
+      }
+
+      if(growth > 0){
+        growth--;
+      } else {
+        snake.pop();
+      }
+    }
+
+    function gameLoop() {
+      updateSnake();
+      drawGame();
+    }
+
+    // Parâmetro para indicar se é para ir direto para placar
+    function endGame(goToLeaderboard = false) {
+      gameOver = true;
+      clearInterval(snakeInterval);
+      clearInterval(scoreInterval);
+
+      // Salvar pontuação no placar
+      const leaderboard = getLeaderboard();
+      leaderboard.push({nick: displayNick.textContent, timer: timer, score: score});
+      saveLeaderboard(leaderboard);
+
+      alert(`Fim de jogo, ${displayNick.textContent}! Sua pontuação foi: ${score}. Tempo: ${timer} segundos.`);
+
+      if(goToLeaderboard){
+        updateLeaderboardTable();
+        gamePage.classList.remove('active');
+        leaderboardPage.classList.add('active');
+      }
+    }
+
+    function startGame() {
+      resetGame();
+      drawGame();
+      snakeInterval = setInterval(gameLoop, 150);
+      scoreInterval = setInterval(() => {
+        if(gameOver) return;
+        timer++;
+        score++;
+        scoreDisplay.textContent = score;
+        timerDisplay.textContent = timer;
+      }, 1000);
+    }
+
+    // Eventos
+
+    startBtn.addEventListener('click', () => {
+      const nick = nickInput.value.trim();
+      if(nick.length < 1){
+        nickError.textContent = 'Por favor, insira um nickname válido.';
+        nickInput.focus();
+        return;
+      }
+      nickError.textContent = '';
+      displayNick.textContent = nick;
+      nickPage.classList.remove('active');
+      gamePage.classList.add('active');
+      nickInput.value = '';
+      nickInput.blur();
+      startGame();
+      canvas.focus();
+    });
+
+    btnShowLeaderboardOnNick.addEventListener('click', () => {
+      updateLeaderboardTable();
+      nickPage.classList.remove('active');
+      leaderboardPage.classList.add('active');
+    });
+
+    btnBackGame.addEventListener('click', () => {
+      clearInterval(snakeInterval);
+      clearInterval(scoreInterval);
+      nickPage.classList.add('active');
+      gamePage.classList.remove('active');
+      nickInput.focus();
+    });
+
+    btnLeaderboard.addEventListener('click', () => {
+      updateLeaderboardTable();
+      gamePage.classList.remove('active');
+      leaderboardPage.classList.add('active');
+    });
+
+    btnBackLeaderboard.addEventListener('click', () => {
+      leaderboardPage.classList.remove('active');
+      gamePage.classList.add('active');
+      canvas.focus();
+    });
+
+    // Controle da cobra - pode usar setas ou WASD
+    window.addEventListener('keydown', e => {
+      if(!gamePage.classList.contains('active')) return;
+
+      // Troca o modo de controle se apertar E, R ou B
+      if(e.key.toLowerCase() === 'e' || e.key.toLowerCase() === 'r' || e.key.toLowerCase() === 'b'){
+        useArrows = !useArrows;
+        const mode = useArrows ? 'Setas do teclado' : 'Teclas WASD';
+        alert(`Modo de controle alterado para: ${mode}`);
+        e.preventDefault();
+        return;
+      }
+
+      if(useArrows){
+        // Controle com setas do teclado
+        switch(e.key){
+          case 'ArrowUp':
+            if(direction !== 'down') nextDirection = 'up';
+            e.preventDefault();
+            break;
+          case 'ArrowDown':
+            if(direction !== 'up') nextDirection = 'down';
+            e.preventDefault();
+            break;
+          case 'ArrowLeft':
+            if(direction !== 'right') nextDirection = 'left';
+            e.preventDefault();
+            break;
+          case 'ArrowRight':
+            if(direction !== 'left') nextDirection = 'right';
+            e.preventDefault();
+            break;
+        }
+      } else {
+        // Controle com WASD
+        switch(e.key.toLowerCase()){
+          case 'w':
+            if(direction !== 'down') nextDirection = 'up';
+            e.preventDefault();
+            break;
+          case 's':
+            if(direction !== 'up') nextDirection = 'down';
+            e.preventDefault();
+            break;
+          case 'a':
+            if(direction !== 'right') nextDirection = 'left';
+            e.preventDefault();
+            break;
+          case 'd':
+            if(direction !== 'left') nextDirection = 'right';
+            e.preventDefault();
+            break;
+        }
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>
+
