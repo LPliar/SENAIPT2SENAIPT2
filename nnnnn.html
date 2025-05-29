@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p id="pragrafo">um paragraaaaaaafo</p>
+
+    <p class="pragrafozao">um pragrafo1</p>
+    <p class="pragrafozao">um pragrafo2</p>
+
+    <input id="numero" type="number" placeholder="Digite um número">
+    <div id="lista">
+        
+    </div>
+    <button id="btn1">1</button>
+    <button id="btn2">2</button>
+    <button id="btn3">3</button>
+    <button onclick="adicionarItem()">botaaaaaaaaaaaaaaao</button>
+
+</body>
+<script>
+    // Pegar por ID
+    const parag = document.getElementById("pragrafo");
+    console.log(parag);
+
+    // Pegar por classe
+    const classes = document.querySelector(".pragrafozao");
+    console.log(classes);
+
+    // Pegar todos os elementos com a classe
+    const classes_todos = document.querySelectorAll(".pragrafozao");
+    console.log(classes_todos);
+
+    // Capturar número do input corretamente
+    document.getElementById("numero").addEventListener("change", function() {
+        let numero = this.value;
+
+        if (numero == 1) {
+            console.log(classes_todos[0].textContent);
+        } else if (numero == 2) {
+            console.log(classes_todos[1].textContent);
+        } else {
+            console.log("FOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+        }
+    });
+
+    // Adicionar eventos de clique nos botões
+    document.getElementById("btn1").addEventListener("click", () => console.log(classes_todos[0].textContent));
+    document.getElementById("btn2").addEventListener("click", () => console.log(classes_todos[1].textContent));
+    document.getElementById("btn3").addEventListener("click", () => console.log("FOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"));
+   parag.textContent = "Um novo paragrafo";
+   parag.innerHTML = "Um novo NOVO paragrafo";
+   parag.style.color = "blue";
+   parag.style.textShadow = "crimsown";
+   parag.style.backgroundColor = "black";
+
+   function adicionarItem(){
+    const item = document.createElement("p");
+    item.textContent = "Textao";
+    document.getElementById("lista").appendChild(item);
+    console.log(item);
+}
+
+</script>
+</html>
