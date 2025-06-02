@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>    
+</body>
+<script>
+    // != diferente
+    // == igual
+    // > maior
+    // < menor
+    // = atribuiçao vou atribuir uma funçao pra variavel
+    // === estritamente igual 
+    // !== estritamente diferente
+
+    var v1 = 2 
+    var v2 = "2"
+
+    console.log(v1 == v2)
+    console.log(v1 === v2) 
+    console.log(`"B" == "B"${"B"=="B"}`)
+    console.log(`"C" == "B"${"C"=="B"}`)
+function bolsonaro()    {
+    
+    let f = Number(prompt("DIgite quantos graus celsius esta sua casa"))
+    f = (f * 9/5) + 32
+    console.log(f)
+    alert(f)
+}   
+bolsonaro()
+
+function salario() {    
+    let sario = Number(prompt("Digite seu salário bruto"));
+    var liquido = sario - (sario * 0.1);
+    alert(`Seu salário líquido é: ${liquido.toFixed(2)}`);
+}
+salario();
+
+</script>
+</html>
