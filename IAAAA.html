@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tigrinho Betting House</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron&family=Poppins&display=swap');
+
+  :root {
+    --tiger-orange: #FF6F31;
+    --tiger-dark: #2B1100;
+    --tiger-light: #FFB366;
+    --tiger-white: #FAF7F0;
+    --tiger-black: #1A1A1A;
+    --shadow-glow: 0 0 10px var(--tiger-orange);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #371300, #FF6F31);
+    color: var(--tiger-white);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #container {
+    background: var(--tiger-dark);
+    max-width: 420px;
+    width: 90vw;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 0 30px #FF6F31AA;
+    position: relative;
+  }
+
+  h1 {
+    font-family: 'Orbitron', monospace;
+    font-weight: 900;
+    font-size: 3rem;
+    color: var(--tiger-light);
+    margin-bottom: 10px;
+    text-align: center;
+    text-shadow: 0 0 8px #FFB366;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    padding: 12px 15px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-family: 'Poppins', sans-serif;
+    outline: none;
+    transition: box-shadow 0.3s ease;
+  }
+
+  input[type="text"]:focus,
+  input[type="password"]:focus {
+    box-shadow: var(--shadow-glow);
+  }
+
+  button {
+    background: var(--tiger-orange);
+    border: none;
+    border-radius: 30px;
+    color: var(--tiger-white);
+    font-weight: 700;
+    font-size: 1.3rem;
+    cursor: pointer;
+    padding: 12px;
+    transition: background-color 0.25s ease;
+    box-shadow: 0 5px 10px #FF6F31CC;
+  }
+
+  button:hover {
+    background: var(--tiger-light);
+    color: var(--tiger-dark);
+  }
+
+  #welcome-message {
+    font-size: 1.4rem;
+    text-align: center;
+    margin-bottom: 15px;
+    color: var(--tiger-light);
+    text-shadow: 0 0 5px #FFB366;
+  }
+
+  #balance {
+    text-align: center;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+    color: var(--tiger-light);
+    text-shadow: 0 0 3px #FFB366;
+  }
+
+  #game-options {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+  }
+
+  .bet-button {
+    background: var(--tiger-light);
+    color: var(--tiger-dark);
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: 15px;
+    padding: 12px 15px;
+    box-shadow: 0 0 10px #FF6F31AA;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    flex: 1;
+    margin: 0 5px;
+    user-select: none;
+  }
+  
+  .bet-button:hover {
+    background: var(--tiger-orange);
+    color: var(--tiger-white);
+  }
+
+  #result {
+    font-size: 1.25rem;
+    text-align: center;
+    font-weight: 700;
+    min-height: 44px;
+    margin-bottom: 20px;
+  }
+
+  #leaderboard {
+    background: var(--tiger-black);
+    border-radius: 15px;
+    padding: 15px;
+    max-height: 220px;
+    overflow-y: auto;
+    box-shadow: inset 0 0 10px #FF6F31BB;
+  }
+
+  #leaderboard h2 {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+    text-align: center;
+    color: var(--tiger-orange);
+    text-shadow: 0 0 5px #FF6F31;
+  }
+
+  #leaderboard ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  #leaderboard li {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    padding: 6px 10px;
+    border-bottom: 1px solid #FF6F3199;
+    color: var(--tiger-light);
+    text-shadow: 0 0 2px #FFB366;
+  }
+
+  #leaderboard li.current-user {
+    background: #FF6F3155;
+    color: #1a0d00;
+    font-weight: 800;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #FFb366AA;
+  }
+
+  /* Tiger icon style */
+  #tiger-logo {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 15px auto;
+    background: url('https://cdn-icons-png.flaticon.com/512/616/616408.png') no-repeat center center;
+    background-size: contain;
+    filter: drop-shadow(0 0 4px #FF6F31);
+  }
+
+  /* Responsive */
+  @media (max-width: 480px){
+    #container {
+      max-width: 95vw;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 2.4rem;
+    }
+  }
+
+</style>
+</head>
+<body>
+  <div id="container">
+    <div id="login-screen">
+      <div id="tiger-logo"></div>
+      <h1>Tigrinho Bets</h1>
+      <form id="login-form">
+        <input type="text" id="nick" placeholder="Digite seu Nick" required autocomplete="off" />
+        <input type="password" id="password" placeholder="Digite sua Senha" required autocomplete="off" />
+        <button type="submit">Entrar</button>
+      </form>
+    </div>
+
+    <div id="game-screen" class="hidden">
+      <div id="welcome-message"></div>
+      <div id="balance">Saldo: R$ 1000</div>
+      <div id="game-options">
+        <button class="bet-button" id="roleta-button">Roleta</button>
+        <button class="bet-button" id="dados-button">Dados</button>
+        <button class="bet-button" id="cara-coroa-button">Cara ou Coroa</button>
+        <button class="bet-button" id="loja-button">Loja</button>
+      </div>
+
+      <div id="result"></div>
+
+      <div id="leaderboard">
+        <h2>Ranking dos Jogadores</h2>
+        <ul id="rank-list"></ul>
+      </div>
+    </div>
+
+    <div id="roleta-screen" class="hidden">
+      <h2>Roleta</h2>
+      <div id="roleta-result"></div>
+      <button class="bet-button" id="roleta-bet">Apostar R$ 50</button>
+      <button class="bet-button" id="back-to-game">Voltar</button>
+    </div>
+
+    <div id="dados-screen" class="hidden">
+      <h2>Dados</h2>
+      <div id="dados-result"></div>
+      <button class="bet-button" id="dados-bet">Apostar R$ 100</button>
+      <button class="bet-button" id="back-to-game-dados">Voltar</button>
+    </div>
+
+    <div id="cara-coroa-screen" class="hidden">
+      <h2>Cara ou Coroa</h2>
+      <div id="cara-coroa-result"></div>
+      <input type="number" id="bet-amount" placeholder="Valor da Aposta" />
+      <button class="bet-button" id="cara-coroa-bet">Apostar</button>
+      <button class="bet-button" id="back-to-game-cara-coroa">Voltar</button>
+    </div>
+
+    <div id="loja-screen" class="hidden">
+      <h2>Loja</h2>
+      <div id="loja-message">Você tem R$ 1000. Compre uma vitória garantida por R$ 1000!</div>
+      <button class="bet-button" id="buy-victory">Comprar Vitória Garantida</button>
+      <button class="bet-button" id="back-to-game-loja">Voltar</button>
+    </div>
+  </div>
+
+<script>
+  (() => {
+    // Initial user balance
+    let userBalance = 1000;
+    let currentUser  = null;
+    let guaranteedWin = false;
+
+    // Fake leaderboard players and balances
+    const fakePlayers = [
+      { nick: 'LeaoFeroz', balance: 7860 },
+      { nick: 'Tigrao', balance: 5000 },
+      { nick: 'PanteraX', balance: 2340 },
+      { nick: 'FeraBr', balance: 1560 },
+      { nick: 'Jaguar_21', balance: 420 },
+    ];
+
+    // Elements
+    const loginScreen = document.getElementById('login-screen');
+    const gameScreen = document.getElementById('game-screen');
+    const loginForm = document.getElementById('login-form');
+    const nickInput = document.getElementById('nick');
+    const passwordInput = document.getElementById('password');
+    const welcomeMessage = document.getElementById('welcome-message');
+    const balanceDisplay = document.getElementById('balance');
+    const rankList = document.getElementById('rank-list');
+
+    // Game screens
+    const roletaScreen = document.getElementById('roleta-screen');
+    const dadosScreen = document.getElementById('dados-screen');
+    const caraCoroaScreen = document.getElementById('cara-coroa-screen');
+    const lojaScreen = document.getElementById('loja-screen');
+
+    // Game results displays
+    const roletaResult = document.getElementById('roleta-result');
+    const dadosResult = document.getElementById('dados-result');
+    const caraCoroaResult = document.getElementById('cara-coroa-result');
+
+    // Helper function: shuffle array
+    function shuffleArray(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    // Render leaderboard including current user
+    function renderLeaderboard() {
+      const allPlayers = [...fakePlayers];
+      if(currentUser ){
+        allPlayers.push({ nick: currentUser , balance: userBalance });
+      }
+      allPlayers.sort((a, b) => b.balance - a.balance);
+
+      rankList.innerHTML = '';
+      allPlayers.forEach(player => {
+        const li = document.createElement('li');
+        li.textContent = player.nick;
+        const balSpan = document.createElement('span');
+        balSpan.textContent = 'R$ ' + player.balance.toLocaleString('pt-BR');
+        li.appendChild(balSpan);
+        if(player.nick === currentUser ){
+          li.classList.add('current-user');
+        }
+        rankList.appendChild(li);
+      });
+    }
+
+    // Game logic functions for each bet type
+    const gameFunctions = {
+      roleta: () => {
+        const win = guaranteedWin || Math.random() < 0.5;
+        guaranteedWin = false; // Reset guaranteed win after use
+        if(win){
+          userBalance += 100;
+          return { win: true, amount: 100, message: 'Você ganhou R$ 100 na Roleta!' };
+        } else {
+          userBalance -= 50;
+          return { win: false, amount: -50, message: 'Você perdeu R$ 50 na Roleta...' };
+        }
+      },
+      dados: () => {
+        const win = guaranteedWin || Math.random() < 0.33;
+        guaranteedWin = false; // Reset guaranteed win after use
+        if(win){
+          userBalance += 200;
+          return { win: true, amount: 200, message: 'Parabéns! Você ganhou R$ 200 no Dados!' };
+        } else {
+          userBalance -= 100;
+          return { win: false, amount: -100, message: 'Ah não, perdeu R$ 100 no Dados.' };
+        }
+      },
+      cara_coroa: (betAmount) => {
+        const win = guaranteedWin || Math.random() < 0.5;
+        guaranteedWin = false; // Reset guaranteed win after use
+        if(win){
+          userBalance += betAmount;
+          return { win: true, amount: betAmount, message: `Você ganhou R$ ${betAmount} no Cara ou Coroa!` };
+        } else {
+          userBalance -= betAmount;
+          return { win: false, amount: -betAmount, message: `Perdeu R$ ${betAmount} no Cara ou Coroa.` };
+        }
+      }
+    };
+
+    // Update displayed balance and result
+    function updateDisplay(result) {
+      balanceDisplay.textContent = `Saldo: R$ ${userBalance.toLocaleString('pt-BR')}`;
+      if(result){
+        const resultDisplay = document.getElementById('result');
+        resultDisplay.textContent = result.message;
+        resultDisplay.style.color = result.win ? '#B7EB2F' : '#FF4B4B';
+        resultDisplay.style.textShadow = result.win ? '0 0 8px #B7EB2F' : '0 0 8px #FF4B4B';
+      } else {
+        document.getElementById('result').textContent = '';
+      }
+      renderLeaderboard();
+    }
+
+    // On login form submit
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const nick = nickInput.value.trim();
+      const password = passwordInput.value.trim();
+      if(!nick || !password){
+        alert('Por favor insira um nick e senha válidos.');
+        return;
+      }
+      currentUser  = nick;
+      userBalance = 1000;
+      welcomeMessage.textContent = `Bem-vindo(a), ${currentUser }!`;
+      updateDisplay();
+      loginScreen.classList.add('hidden');
+      gameScreen.classList.remove('hidden');
+    });
+
+    // Game option button click events
+    document.getElementById('roleta-button').addEventListener('click', () => {
+      gameScreen.classList.add('hidden');
+      roletaScreen.classList.remove('hidden');
+      roletaResult.textContent = '';
+    });
+
+    document.getElementById('dados-button').addEventListener('click', () => {
+      gameScreen.classList.add('hidden');
+      dadosScreen.classList.remove('hidden');
+      dadosResult.textContent = '';
+    });
+
+    document.getElementById('cara-coroa-button').addEventListener('click', () => {
+      gameScreen.classList.add('hidden');
+      caraCoroaScreen.classList.remove('hidden');
+      caraCoroaResult.textContent = '';
+    });
+
+    document.getElementById('loja-button').addEventListener('click', () => {
+      gameScreen.classList.add('hidden');
+      lojaScreen.classList.remove('hidden');
+    });
+
+    // Roleta bet button
+    document.getElementById('roleta-bet').addEventListener('click', () => {
+      const result = gameFunctions.roleta();
+      updateDisplay(result);
+      roletaResult.textContent = result.message;
+    });
+
+    // Dados bet button
+    document.getElementById('dados-bet').addEventListener('click', () => {
+      const result = gameFunctions.dados();
+      updateDisplay(result);
+      dadosResult.textContent = result.message;
+    });
+
+    // Cara ou Coroa bet button
+    document.getElementById('cara-coroa-bet').addEventListener('click', () => {
+      const betAmount = parseInt(document.getElementById('bet-amount').value);
+      if(isNaN(betAmount) || betAmount <= 0 || betAmount > userBalance) {
+        alert('Por favor insira um valor de aposta válido.');
+        return;
+      }
+      const result = gameFunctions.cara_coroa(betAmount);
+      updateDisplay(result);
+      caraCoroaResult.textContent = result.message;
+    });
+
+    // Back buttons
+    document.getElementById('back-to-game').addEventListener('click', () => {
+      roletaScreen.classList.add('hidden');
+      gameScreen.classList.remove('hidden');
+    });
+
+    document.getElementById('back-to-game-dados').addEventListener('click', () => {
+      dadosScreen.classList.add('hidden');
+      gameScreen.classList.remove('hidden');
+    });
+
+    document.getElementById('back-to-game-cara-coroa').addEventListener('click', () => {
+      caraCoroaScreen.classList.add('hidden');
+      gameScreen.classList.remove('hidden');
+    });
+
+    document.getElementById('back-to-game-loja').addEventListener('click', () => {
+      lojaScreen.classList.add('hidden');
+      gameScreen.classList.remove('hidden');
+    });
+
+    // Loja buy victory button
+    document.getElementById('buy-victory').addEventListener('click', () => {
+      if(userBalance >= 1000) {
+        userBalance -= 1000;
+        guaranteedWin = true;
+        alert('Você comprou uma vitória garantida para a próxima
