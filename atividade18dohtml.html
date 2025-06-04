@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>functions</title>
+</head>
+<body>
+    <button style="background-color: red; color: #ffffff;" onclick="calma()">um botao clica pra ve oq</button>
+</body>
+
+<script>
+    function calma() {
+        var quincy = confirm("Você quer digitar um número?");
+        while (quincy) {
+            var num = Number(prompt("Digite o número:"));
+            var resultado = num * 3;
+            alert("Resultado: " + resultado);
+            quincy = confirm("Você quer outro número?");
+        }
+        alert("Ok, encerrado.");
+    }
+
+    function num() {
+        var num;
+        do {
+            num = Number(prompt("Digite um número para verificar se é real ou fake:"));
+            if (!isNaN(num)) {
+                if (num % 2 == 0) {
+                    alert("Número par! Resultado: " + num * 2);
+                } else {
+                    alert("Número ímpar! Resultado: " + num * 3);
+                }
+            } else {
+                alert("Por favor, insira um número válido.");
+            }
+        } while (num !== 0);
+    }
+    function array(){
+        const nomes = []
+        do{
+               let novoNome = prompt("DIgite um name: ")
+               if (novoNome == 'o'){
+                break
+               }     
+               nomes.push(novoNome)
+               console.log(nomes);
+
+        }while(true)
+    }
+</script>
+</html>
