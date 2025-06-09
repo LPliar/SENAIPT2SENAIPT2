@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="IMC()" style="color: rgb(10, 117, 10); background-color: rgb(178, 255, 62);"> BOTTAO DA PRIMEIRA VARIAVEL (SEGUNDA) </button>
+    <br>
+  
+    <button onclick="NUmERO()" style="color: rgb(255, 255, 255); background-color: red"; >OTO BOTONES ( nao clique )</button>
+       <br>
+       
+       <button>UM BOTAAAAAAAAAAAAAAAAAAAAAAAAAAAO</button>
+</body>
+<script> 
+    //var name = prompt("bom dia digite seu nome: ")
+    //var note1 = Number(prompt("Digite sua primeira nota: "))
+    //var note2 = Number(prompt("Digite sua primeira 2: "))
+    //var resultado = (note1 + note2)/2
+    //if (resultado >= 6){
+      //  alert(name+" sua nota é" +resultado+"logo voce esta aprovado")
+
+    //}
+    //else if (resultado < 6 && resultado >= 4){
+      //  alert("REprovo"+resultado +"MENTIRA TA SO DE RECUPERAÇAO ZÉ                                                      . . .")
+    //}
+    //else {
+      //  alert("vALOR(ANT) incorreto")
+    //}
+    function IMC(){
+        let peso = Number(prompt("Print input seu peso"))
+        let altura = Number(prompt("Seu altura "))
+        var imc_resultado = (altura **2)/2
+        console.log("Seu imc é "+imc_resultado)
+    }
+    function NUmERO(){
+        var numero = Number(prompt("Digite um numero e direi se impar ou par e positivo ou negativo"))
+        if (numero % 2==0){
+            alert("Numero par zé")
+
+        }
+        else{
+  
+            alert("Numero impar")
+        }
+        if (numero >= 0)
+        {
+            alert("Numero positivo")
+        }
+        else{
+            alert("Numero negativado")
+        }
+    }
+
+    function NATACAO(){
+        var idade = Number(prompt("Printssss sua idade "))
+
+        if (idade >= 5 && idade <= 7){
+            console.log("infatil A")
+        }
+
+     else if (idade >= 8 && idade <= 10){
+            console.log("infatil B")
+        }
+        else if (idade >= 11 && idade <= 13){
+            console.log("infatil B")
+        }
+        else{
+            alert("adulto")
+        }
+        // cansei preguiça de fazer o resto mas deu pra entender funçao de classe que dependendo da idade vc ira pra tal turma de nataçao
+    }
+
+    
+   
+
+</script>
+</html>
