@@ -78,7 +78,15 @@ function adicionarfinal(){
   //      listaDiv.appendChild(p);
 //    });
 //}
-
+function varrer{
+elementohtml = document.getElementById("Elementosdoarray")
+    var estruturaHTML = ""
+    for(cidadeDOArray of paises){
+        estruturaHTML += 'p' +cidadeDoArray + "<\p><br>"
+    }
+    elementohtml.innerHTML = estruturaHTML
+    }
+}
 
 </script>
 </html>
