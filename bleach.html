@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="calma()"> esse botao tinha um nome mas eu esqueci </button>
+    <br>
+    <br>
+    <button onclick="add()"> Startar </button>
+    <br>
+    <br>
+    <button onclick="adicionarfinal()">Adicionar final</button>
+    <style>
+        button{
+            border-radius: 5px;
+            background-color: rgb(4, 165, 31);
+            border-width: 0px;
+            color: white;
+            font-size: 25px;
+            box-shadow: 5px 10px rgb(150, 150, 150);
+            padding: 2px;
+            margin: auto;
+
+        }
+        
+        
+    </style>
+    <div>
+        
+    </div>
+</body>
+<script>
+    const paises = ["Brasil", "Estados Unidos", " Portugual"]
+  function calma() {
+    var quincy = confirm("Você quer digitar um número?");
+    while (quincy) {
+        var num = Number(prompt("Digite o número:"));
+        var resultado = num * 3;
+        alert("Resultado: " + resultado);
+        quincy = confirm("Você quer outro número?");
+    }
+    alert("Ok, encerrado.");
+
+ }
+ function add(){
+
+ 
+        const nomero = ["68","13","22"]
+        alert(nomero)
+       var num = prompt("add um numero ai ")
+        nomero.unshift(num)
+        alert(nomero)
+
+    // push unshift = adicionar
+    // pop shift remover obvio
+}
+function adicionarfinal(){
+    var adicionar = prompt("Adicione um pais para sua lista de viagem ")
+    paises.push(adicionar)
+    alert(paises)
+    
+}
+// se precisar 
+//<div id="lista-paises"></div>
+//function adicionarfinal() {
+//    var adicionar = prompt("Adicione um país para sua lista de viagem ");
+ //   paises.push(adicionar);
+
+ //   var listaDiv = document.getElementById("lista-paises");
+ //   listaDiv.innerHTML = ""; // Limpa o conteúdo antes de adicionar os novos itens
+//
+ //   paises.forEach(function(pais) {
+  ///      var p = document.createElement("p");
+ //       p.textContent = pais;
+  //      listaDiv.appendChild(p);
+//    });
+//}
+
+
+</script>
+</html>
