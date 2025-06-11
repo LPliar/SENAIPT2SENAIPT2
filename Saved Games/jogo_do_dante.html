@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ping Pong Multiball sem Gol</title>
+<style>
+  /* Reset e base */
+  * {
+    box-sizing: border-box;
+  }
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    user-select: none;
+  }
+
+  #gameContainer {
+    position: relative;
+    width: 900px;
+    height: 500px;
+    background-color: #111;
+    border-radius: 16px;
+    box-shadow:
+      0 0 20px rgba(255 255 255 / 0.1),
+      inset 0 0 40px rgba(255 255 255 / 0.15);
+    display: flex;
+  }
+
+  /* Paddles */
+  #paddleLeft, #paddleRight {
+    position: absolute;
+    width: 16px;
+    height: 120px;
+    background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+    border-radius: 12px;
+    box-shadow: 0 0 15px #8b5cf6;
+  }
+  #paddleLeft {
+    left: 0;
+    top: 190px;
+    transition: top 0.1s ease;
+  }
+  #paddleRight {
+    right: 0;
+    top: 190px;
+    box-shadow: 0 0 15px #06b6d4;
+  }
+
+  /* Bola container */
+  #balls {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Bola estilizada */
+  .ball {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background: radial-gradient(circle at center, #8b5cf6, #06b6d4);
+    border-radius: 50%;
+    box-shadow:
+      0 0 10px #8b5cf6,
+      inset 0 0 6px #06b6d4;
+    pointer-events: none;
+  }
+
+  /* Placar */
+  #scoreBoard {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #eee;
+    font-size: 28px;
+    font-weight: 700;
+    text-shadow: 0 0 10px #8b5cf6;
+    user-select: none;
+    letter-spacing: 4px;
+  }
+
+  /* Instruções */
+  #instructions {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #aaa;
+    font-size: 14px;
+    font-weight: 500;
+    user-select: none;
+    text-align: center;
+    width: 80%;
+    max-width: 700px;
+  }
+</style>
+</head>
+<body>
+  <div id="gameContainer" role="main" aria-label="Jogo de Ping Pong multibola sem gol">
+    <div id="paddleLeft" aria-label="Raquete do jogador" tabindex="0"></div>
+    <div id="paddleRight" aria-label="Raquete do computador"></div>
+    <div id="balls"></div>
+    <div id="scoreBoard" aria-live="polite"></div>
+    <div id="instructions">
+      Mova sua raquete verticalmente com o mouse (ou toque). As bolas dobram ao bater em qualquer superfície (parede ou raquete).
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      // Constantes do jogo
+      const GAME_WIDTH = 900;
+      const GAME_HEIGHT = 500;
+      const PADDLE_WIDTH = 16;
+      const PADDLE_HEIGHT = 120;
+      const BALL_SIZE = 24;
+      const BALL_SPEED_MIN = 3;
+      const BALL_SPEED_MAX = 5;
+  
+      const MAX_BALLS = 20000; // Limite de bolas para evitar lentidão
+  
+      const gameContainer = document.getElementById('gameContainer');
+      const paddleLeft = document.getElementById('paddleLeft');
+      const paddleRight = document.getElementById('paddleRight');
+      const ballsContainer = document.getElementById('balls');
+      const scoreBoard = document.getElementById('scoreBoard');
+  
+      let paddleLeftY = (GAME_HEIGHT - PADDLE_HEIGHT) / 2;
+      let paddleRightY = (GAME_HEIGHT - PADDLE_HEIGHT) / 2;
+  
+      function updatePlayerPaddle(y) {
+        paddleLeftY = Math.min(Math.max(0, y - PADDLE_HEIGHT / 2), GAME_HEIGHT - PADDLE_HEIGHT);
+        paddleLeft.style.top = paddleLeftY + 'px';
+      }
+  
+      class Ball {
+        constructor(x, y, vx, vy) {
+          this.x = x;
+          this.y = y;
+          this.vx = vx;
+          this.vy = vy;
+          this.element = document.createElement('div');
+          this.element.classList.add('ball');
+          this.updatePosition();
+          ballsContainer.appendChild(this.element);
+          this.collidedThisFrame = false;
+        }
+        updatePosition() {
+          this.element.style.transform = `translate(${this.x}px, ${this.y}px)`;
+        }
+        remove() {
+          this.element.remove();
+        }
+        clone() {
+          const angle = Math.atan2(this.vy, this.vx);
+          const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+          const angleVariation = (Math.random() * 0.4) - 0.2;
+          const newAngle = angle + angleVariation;
+          const newVx = Math.cos(newAngle) * speed;
+          const newVy = Math.sin(newAngle) * speed;
+          return new Ball(this.x, this.y, newVx, newVy);
+        }
+      }
+  
+      let balls = [];
+  
+      function createInitialBall() {
+        const speedX = (Math.random() > 0.5 ? 1 : -1) * randomRange(BALL_SPEED_MIN, BALL_SPEED_MAX);
+        const speedY = randomRange(-BALL_SPEED_MAX, BALL_SPEED_MAX);
+        const startX = (GAME_WIDTH - BALL_SIZE) / 2;
+        const startY = (GAME_HEIGHT - BALL_SIZE) / 2;
+        return new Ball(startX, startY, speedX, speedY);
+      }
+  
+      function randomRange(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+  
+      function updateComputerPaddle() {
+        if (balls.length === 0) return;
+        let targetBall = balls[0];
+        for (const ball of balls) {
+          if (ball.x > targetBall.x) targetBall = ball;
+        }
+        const ballCenterY = targetBall.y + BALL_SIZE / 2;
+        const paddleCenterY = paddleRightY + PADDLE_HEIGHT / 2;
+        const delta = ballCenterY - paddleCenterY;
+        const maxSpeed = 6;
+        const moveY = Math.sign(delta) * Math.min(maxSpeed, Math.abs(delta));
+        paddleRightY = Math.min(Math.max(0, paddleRightY + moveY), GAME_HEIGHT - PADDLE_HEIGHT);
+        paddleRight.style.top = paddleRightY + 'px';
+      }
+  
+      function limitBallSpeed(ball) {
+        const maxSpeed = BALL_SPEED_MAX * 1.5;
+        const speed = Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy);
+        if (speed > maxSpeed) {
+          const scale = maxSpeed / speed;
+          ball.vx *= scale;
+          ball.vy *= scale;
+        }
+      }
+  
+      function checkPaddleCollision(ball, paddleY, paddleX) {
+        const ballLeft = ball.x;
+        const ballRight = ball.x + BALL_SIZE;
+        const ballTop = ball.y;
+        const ballBottom = ball.y + BALL_SIZE;
+  
+        const paddleLeft = paddleX;
+        const paddleRight = paddleX + PADDLE_WIDTH;
+        const paddleTop = paddleY;
+        const paddleBottom = paddleY + PADDLE_HEIGHT;
+  
+        return (
+          ballRight > paddleLeft &&
+          ballLeft < paddleRight &&
+          ballBottom > paddleTop &&
+          ballTop < paddleBottom
+        );
+      }
+  
+      function multiplyBalls() {
+        if (balls.length >= MAX_BALLS) return;
+        const clones = [];
+        for (const ball of balls) {
+          clones.push(ball.clone());
+        }
+        balls.push(...clones);
+      }
+  
+      function updateScore() {
+        scoreBoard.textContent = `Bolas: ${balls.length}`;
+      }
+  
+      function init() {
+        balls.forEach(b => b.remove());
+        balls = [];
+        balls.push(createInitialBall());
+        updateScore();
+  
+        gameContainer.addEventListener('mousemove', e => {
+          const rect = gameContainer.getBoundingClientRect();
+          const relativeY = e.clientY - rect.top;
+          updatePlayerPaddle(relativeY);
+        });
+  
+        gameContainer.addEventListener('touchmove', e => {
+          e.preventDefault();
+          if (e.touches.length > 0) {
+            const rect = gameContainer.getBoundingClientRect();
+            const relativeY = e.touches[0].clientY - rect.top;
+            updatePlayerPaddle(relativeY);
+          }
+        }, { passive: false });
+  
+        window.requestAnimationFrame(gameLoop);
+      }
+  
+      function gameLoop() {
+        updateComputerPaddle();
+  
+        let multipliedThisFrame = false;
+  
+        for (const ball of balls) {
+          ball.x += ball.vx;
+          ball.y += ball.vy;
+  
+          let collidedThisBall = false;
+  
+          if (ball.y <= 0) {
+            ball.y = 0;
+            ball.vy = -ball.vy;
+            collidedThisBall = true;
+          } else if (ball.y + BALL_SIZE >= GAME_HEIGHT) {
+            ball.y = GAME_HEIGHT - BALL_SIZE;
+            ball.vy = -ball.vy;
+            collidedThisBall = true;
+          }
+  
+          if (ball.x <= 0) {
+            if (!checkPaddleCollision(ball, paddleLeftY, 0)) {
+              ball.x = 0;
+              ball.vx = -ball.vx;
+              collidedThisBall = true;
+            }
+          } else if (ball.x + BALL_SIZE >= GAME_WIDTH) {
+            if (!checkPaddleCollision(ball, paddleRightY, GAME_WIDTH - PADDLE_WIDTH)) {
+              ball.x = GAME_WIDTH - BALL_SIZE;
+              ball.vx = -ball.vx;
+              collidedThisBall = true;
+            }
+          }
+  
+          if (checkPaddleCollision(ball, paddleLeftY, 0)) {
+            ball.vx = Math.abs(ball.vx);
+            ball.vy += ((ball.y + BALL_SIZE / 2) - (paddleLeftY + PADDLE_HEIGHT / 2)) * 0.15;
+            limitBallSpeed(ball);
+            collidedThisBall = true;
+          }
+  
+          if (checkPaddleCollision(ball, paddleRightY, GAME_WIDTH - PADDLE_WIDTH)) {
+            ball.vx = -Math.abs(ball.vx);
+            ball.vy += ((ball.y + BALL_SIZE / 2) - (paddleRightY + PADDLE_HEIGHT / 2)) * 0.15;
+            limitBallSpeed(ball);
+            collidedThisBall = true;
+          }
+  
+          if (collidedThisBall && !multipliedThisFrame) {
+            multiplyBalls();
+            multipliedThisFrame = true;
+          }
+  
+          ball.updatePosition();
+        }
+  
+        updateScore();
+        window.requestAnimationFrame(gameLoop);
+      }
+  
+      init();
+    })()
+  </script>
+  

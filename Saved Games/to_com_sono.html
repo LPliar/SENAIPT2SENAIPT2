@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="cessiessi.css">
+    <link rel="stylesheet" href="index.js">
+</head>
+<body>
+    <input type="text">
+    <button onclick="calma()"> Esse Botao tinha  um nome mas eu esqueci </button>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br> <br> <br>
+    <br>
+    <br>
+    <br>
+    <button onclick="add()" id="startar">   Startar   </button>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <img id="gif" src="https://media.tenor.com/aSkdq3IU0g0AAAAC/laughing-cat.gif" alt="GIF">
+    <button onclick="varrer()" id="bah" > Varrer</button>
+    <br>
+    <br> 
+    <br>
+    <br>
+    <br> 
+    <br>
+    <button onclick="adicionarfinal()" id="ultimo">Adicionar final</button>
+    <br>
+    
+
+    <style>
+        button{
+            border-radius: 10px;
+            background-color: rgb(0, 0, 0);
+            border-width: 0px;
+            color: white;
+            font-size: 30px;
+            box-shadow: 8px 10px rgb(32, 32, 32);
+            padding: 2px;
+            margin: auto;
+            width: 700px;
+
+        }
+        
+        
+    </style>
+    <div id="Elementosdoarray">
+        
+    </div>
+</body>
+<script>
+    const paises = ["Brasil", "Estados Unidos", " Portugual"]
+  function calma() {
+    var quincy = confirm("Você quer digitar um número?");
+    while (quincy) {
+        var num = Number(prompt("Digite o número:"));
+        var resultado = num * 3;
+        alert("Resultado: " + resultado);
+        quincy = confirm("Você quer outro número?");
+    }
+    alert("Ok, encerrado.");
+
+ }
+ function add(){
+
+ 
+        const nomero = ["68","13","22"]
+        alert(nomero)
+       var num = prompt("add um numero ai ")
+        nomero.unshift(num)
+        alert(nomero)
+
+    // push unshift = adicionar
+    // pop shift remover obvio
+}
+function adicionarfinal(){
+    var adicionar = prompt("Adicione um pais para sua lista de viagem ")
+    paises.push(adicionar)
+    alert(paises)
+    
+}
+// se precisar 
+//<div id="lista-paises"></div>
+//function adicionarfinal() {
+//    var adicionar = prompt("Adicione um país para sua lista de viagem ");
+ //   paises.push(adicionar);
+
+ //   var listaDiv = document.getElementById("lista-paises");
+ //   listaDiv.innerHTML = ""; // Limpa o conteúdo antes de adicionar os novos itens
+//
+ //   paises.forEach(function(pais) {
+  ///      var p = document.createElement("p");
+ //       p.textContent = pais;
+  //      listaDiv.appendChild(p);
+//    });
+//}
+function varrer(){
+    elementohtml = document.getElementById("elementosdoarray")
+    var estruturaHTML = ""
+    for(cidadeDoArray of cidades){
+        estruturaHTML += '<p>' + cidadeDoArray + "<\p>"
+       
+    }
+    elementohtml.innerHTML= estruturaHTML
+}
+   // if (elementohtml == isNaN){
+//        alert("F man")
+ //   }
+ //   else{
+//        alert("bah man ainda tem coisa ai")
+//    }
+
+// CONTINUAÇAO DO CODIGO BLEACH
+function remover() {
+    var tamanho = cidades.length
+    if(tamanho == 0){
+        alert("Erro! Não tem mais cidades.")
+    }
+    else{cidades.pop()
+    alert(cidades)
+    varrer()}
+
+}
+
+
+
+</script>
+</html>
