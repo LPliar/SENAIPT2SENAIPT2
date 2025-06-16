@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ce essi esci</title>
+</head>
+<body>
+    <div> 
+    <br>
+    <input type="number" id="nivel" min="1" max="3" placeholder="Level">
+    <br>
+    <input type="number" id="horas" min="1" max="24" placeholder="horario">
+    </div>
+    <button onclick="to_semnomeprafuncao()">Novo button</button>
+ 
+    <style>
+        body{
+            background-color: rgb(0, 1, 15);
+            background-image: url(	https://img-s-msn-com.akamaized.net/tenant/amp/entityid/BB1msOP5?w=0&h=0&q=60&m=6&f=jpg&u=t);
+                        display: flex;  
+                        justify-content: center;
+                        align-items: center;
+        }
+        input{
+            margin-top: 200px;
+            width: 300px;
+            border-radius: 10px;
+            box-shadow: 10px 8px rgb(4, 161, 17);
+            height: 25px;
+            background-color: rgb(48, 255, 48);
+            
+            
+        }
+        #gif {
+    position: absolute;
+    top: calc(100% - 600px); /* Ajuste a altura conforme a posição do botão */
+    left: 10px;              /* Bem à esquerda */
+    width: 200px;            /* Tamanho mais visível */
+    z-index: 100;  
+margin-left: 100px;
+margin-top: 2px;}
+
+ #nivel{
+    background-color: red;
+    box-shadow: 10px 8px rgb(138, 3, 3);
+    color: white;
+ }
+ #horas{
+    background-color: white;
+    box-shadow: 10px 8px whitesmoke;
+    
+ }
+ button{
+    box-shadow: 5px 5px rgb(0, 2, 119);
+    background-color: rgb(10, 88, 255);
+ }
+    
+    </style>
+    <input type="text" placeholder="Quantos cachorros teve hoje?" id="cat">
+    <button onclick="funcao()" style="margin-top: 210px; margin-left: 20px; border-radius: 100px; color: rgb(0, 0, 0); font-size: 25px;">?</button>
+    <img src="https://www.gifcen.com/wp-content/uploads/2021/03/memes-gif-2.gif" alt="gif" id="gif">
+</body>
+<script>
+    function idades(){
+        var mulher1 = Number(prompt(" idade da mulher 1"))
+var mulher2 = Number(prompt(" a idade da mulher 2"))
+var homem1 = Number(prompt("Digite a idade do homem 1"))
+var homem2 = Number(prompt("Digite a idade do homem 2"))
+
+var mvelha, mnova, hvelho, hnovo
+
+if (mulher1 > mulher2){
+    mvelha = mulher1
+    mnova = mulher2
+} else {
+    mvelha = mulher2
+    mnova = mulher1
+}
+
+if (homem1 > homem2){
+    hvelho = homem1
+    hnovo = homem2
+} else {
+    hvelho = homem2
+    hnovo = homem1
+}
+
+var resultado = mvelha + hnovo
+var results = hvelho + mnova
+
+alert("mulher velha + homem novo: =  " + resultado)
+alert("homem velho + mulher velha: = " + results)
+
+    }
+
+function funcao(){
+    var  dog = Number(document.getElementById("cat"))
+    if (dog <= 20 )
+    alert("Ocioso")
+          else if (dog >= 30){
+
+}
+      else{
+    alert("ta certo eu acho (normal)")
+}
+}
+function diferença(){
+    var num1 = Number(prompt("Esreva um numero"))
+    var num2 = Number(prompt("digite o segundo numero")) 
+    
+    var resultado = num1 - num2
+    alert(resultado)
+
+
+
+}
+diferença()
+
+function to_semnomeprafuncao(){
+    var nivel = Number(document.getElementById("level").value)
+    var horas = Number(document.getElementById("horas").value)
+    if(nivel==1){
+        var resultado = 12.00*horas
+        alert(resultadol)
+
+    }
+    else if(nivel ==2){
+        var resultado = 17.00*horas
+        alert(resultado)
+    }else{
+        var resultado = 25.00*horas
+        alert(resultado)
+    }
+
+    
+
+}
+function naoaguentomais(){
+    var litro = Number(document.getElementById("litro").value)
+    var tipo = document.getElementById("tipo"().value)
+    var preçog = 5.15;
+    var preçoa = 4.29;
+    var total = 0;
+
+    if(tipo === "gas"){
+        if (litro < 21){
+            total = litro * preçog *0.96
+        }
+        else {
+            total = litro * preçog
+        }
+        else if (tipo === "alcoo"){
+            if (litro < 21){
+                total = litro * preçoa * 0.97
+            }
+            else {
+                total = litro * preçoa * 0.95
+            }
+            
+        }
+    }
+    alert("Preço total: rs rs"+total.toFixed(2))
+}
+function toboga(){
+    
+}
+
+
+
+</script>
+</html>
