@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="fatpt1css.css">
+</head>
+<body>
+    <h1 id="titulo">Calculo Somar</h1>
+    <div id="all"> Informe 2 numeros
+        <br>
+        <br>
+        <br>
+        <input type="number" placeholder="Number 1" id="num1"> <input type="number"  placeholder=" Num 2" id="num2">
+   
+        <button id="buttons" onclick="boton()">Calcular</button>
+        <br>    
+        <p id="p"></p>
+    </div>
+    
+</body>
+<script>
+    function boton(){
+    var num1 = Number(document.getElementById("num1").value)
+    var num2 = Number(document.getElementById("num1").value)
+    var resultados = num1 + num2
+    var resultado = document.getElementById("p").innerHTML=resultados
+    
+    }
+</script>
+</html>

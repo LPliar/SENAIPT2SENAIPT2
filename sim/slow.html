@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    #page{
+        background-color: gray;
+        text-align: center;
+        padding-inline: 100px;
+        width: 1000px;
+        font-size: 50px;
+    }
+</style>
+<body>
+    <div id="page" onclick="clique()" onmouseenter="entrar()" > que? </div>
+
+    
+</body>
+<script>
+
+    function entrar(){
+        page.style.background="blue"
+        page.innerText="Entrou"
+        page.style.color="black"
+
+    }
+
+    function clique(){
+        page.style.background="green"
+        page.innerText="nao👍 "
+        page.style.color="red"
+        
+    }
+    function ir(){
+    var idade = Number(prompt("Idade: "))
+    var peso = Number(prompt("Peso: "))
+    var altura = Number(prompt("Altura"))
+
+    if ((idade > 12) && (altura >= 1.50)&&  (peso >= 50)&&(peso <= 150)){
+        alert("ta podendo hoje brinca")
+    }
+     if(idade <12){
+        alert("muito novo")
+    }
+     if(altura < 1.50){
+        alert("muito baixo")
+    }
+     if(peso < 50) {
+    alert("ta muito magro")
+
+    }
+     if(peso > 150){
+        alert("ta acima do peso")
+    }
+    }
+// DAVA PRA BOTAR ELSE EM TODOS E DEPOIS FAZER TIPO IF (IDADE < 12) || OU && (ALTURA < 1.50) ALERT("TA NOVO DE MAIS E BAIXO DE MAIS")
+</script>
+</html>
